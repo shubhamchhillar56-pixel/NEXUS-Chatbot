@@ -26,13 +26,17 @@ from langgraph.prebuilt import ToolNode, tools_condition
 import psycopg
 
 load_dotenv()
-api_key = os.getenv("GOOGLE_API_KEY")
-# Initialize LLM and Embeddings
+api_key = os.getenv("GOOGLE_API_KEY") 
+
+# Raise a clear error early if the key is missing from environment
+if not api_key:
+    raise ValueError("Missing GOOGLE_API_KEY in environment variables.")
+
+# Pass google_api_key explicitly into the class
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash", # or whatever model you are using
-    api_key=api_key,
-    temperature=0
-    # ... your other parameters
+    model="gemini-2.5-flash",
+    google_api_key=api_key,
+    temperature=0.7
 )
 embeddings = GoogleGenerativeAIEmbeddings(
     model="gemini-embedding-2"
