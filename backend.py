@@ -26,11 +26,13 @@ from langgraph.prebuilt import ToolNode, tools_condition
 import psycopg
 
 load_dotenv()
-
+api_key = os.getenv("GOOGLE_API_KEY")
 # Initialize LLM and Embeddings
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
+    model="gemini-2.5-flash", # or whatever model you are using
+    api_key=api_key,
     temperature=0
+    # ... your other parameters
 )
 embeddings = GoogleGenerativeAIEmbeddings(
     model="gemini-embedding-2"
