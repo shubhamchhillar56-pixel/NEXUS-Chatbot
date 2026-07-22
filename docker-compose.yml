@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: nexus_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: postgres
+    ports:
+      - "5442:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  nexus-app:
+    build: .
+    container_name: nexus_chatbot_app
+    restart: always
+    ports:
+      - "8501:8501"
+    environment:
+      - DB_URI=postgresql://postgres:postgrespassword@postgres-db:5432/postgres?sslmode=disable
+      - GOOGLE_API_KEY
+      - ALPHA_VANTAGE_API_KEY
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
