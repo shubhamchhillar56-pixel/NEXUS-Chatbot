@@ -26,27 +26,21 @@ from langgraph.prebuilt import ToolNode, tools_condition
 import psycopg
 
 load_dotenv()
+api_key = os.getenv("GOOGLE_API_KEY") 
 
-print("=" * 60)
-print("GOOGLE_API_KEY =", repr(os.getenv("GOOGLE_API_KEY")))
-print("DATABASE_URL =", repr(os.getenv("DATABASE_URL")))
-print("ALL ENV KEYS =", sorted(os.environ.keys()))
-print("=" * 60)
-
-api_key = os.getenv("GOOGLE_API_KEY")
-
+# Raise a clear error early if the key is missing from environment
 if not api_key:
-    raise ValueError("Missing GOOGLE_API_KEY")
+    raise ValueError("Missing GOOGLE_API_KEY in environment variables.")
 
 # Pass google_api_key explicitly into the class
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
-    GOOGLE_API_KEY=api_key,
+    google_api_key=api_key,
     temperature=0.7
 )
 embeddings = GoogleGenerativeAIEmbeddings(
-    model="gemini-embedding-2",
-    GOOGLE_API_KEY=api_key
+    model="gemini-embedding-001",
+    google_api_key=api_key
 )
 
 # ==================== POSTGRESQL MEMORY SETUP ====================
@@ -326,8 +320,8 @@ def get_stock_price(symbol: str) -> dict:
     Fetch latest stock price for a given symbol (e.g. 'AAPL', 'TSLA') 
     using Alpha Vantage with API key in the URL.
     """
-    url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}"
-    api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
+    av_api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
+    url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={av_api_key}"
     r = requests.get(url)
     return r.json()
 
