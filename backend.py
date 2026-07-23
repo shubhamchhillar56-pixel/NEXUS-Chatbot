@@ -39,15 +39,15 @@ llm = ChatGoogleGenerativeAI(
     temperature=0.7
 )
 embeddings = GoogleGenerativeAIEmbeddings(
-    model="gemini-embedding-2"
+    model="gemini-embedding-2",
+    google_api_key=api_key
 )
 
 # ==================== POSTGRESQL MEMORY SETUP ====================
 # PostgreSQL Connection String (pointing to Docker port 5442)
-DB_URI = os.getenv(
-    "DB_URI", 
-    "postgresql://postgres:postgres@postgres-db:5432/postgres?sslmode=disable"
-)
+DB_URI = os.getenv("DATABASE_URL")
+if not DB_URI:
+    raise ValueError("DATABASE_URL not found")
 
 # 1. Enable autocommit on the pool connections
 pool = ConnectionPool(
@@ -321,7 +321,7 @@ def get_stock_price(symbol: str) -> dict:
     using Alpha Vantage with API key in the URL.
     """
     url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}"
-    API_KEY = os.getenv("ALPHA_VANTAGE_KEY")
+    api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
     r = requests.get(url)
     return r.json()
 
