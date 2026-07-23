@@ -35,12 +35,12 @@ if not api_key:
 # Pass google_api_key explicitly into the class
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
-    google_api_key=api_key,
+    GOOGLE_API_KEY=api_key,
     temperature=0.7
 )
 embeddings = GoogleGenerativeAIEmbeddings(
     model="gemini-embedding-2",
-    google_api_key=api_key
+    GOOGLE_API_KEY=api_key
 )
 
 # ==================== POSTGRESQL MEMORY SETUP ====================
