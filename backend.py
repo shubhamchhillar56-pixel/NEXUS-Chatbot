@@ -28,8 +28,9 @@ import psycopg
 load_dotenv()
 
 print("=" * 60)
-print("GOOGLE_API_KEY:", os.getenv("GOOGLE_API_KEY"))
-print("DATABASE_URL:", os.getenv("DATABASE_URL"))
+print("GOOGLE_API_KEY =", repr(os.getenv("GOOGLE_API_KEY")))
+print("DATABASE_URL =", repr(os.getenv("DATABASE_URL")))
+print("ALL ENV KEYS =", sorted(os.environ.keys()))
 print("=" * 60)
 
 api_key = os.getenv("GOOGLE_API_KEY")
