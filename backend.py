@@ -26,11 +26,16 @@ from langgraph.prebuilt import ToolNode, tools_condition
 import psycopg
 
 load_dotenv()
-api_key = os.getenv("GOOGLE_API_KEY") 
 
-# Raise a clear error early if the key is missing from environment
+print("=" * 60)
+print("GOOGLE_API_KEY:", os.getenv("GOOGLE_API_KEY"))
+print("DATABASE_URL:", os.getenv("DATABASE_URL"))
+print("=" * 60)
+
+api_key = os.getenv("GOOGLE_API_KEY")
+
 if not api_key:
-    raise ValueError("Missing GOOGLE_API_KEY in environment variables.")
+    raise ValueError("Missing GOOGLE_API_KEY")
 
 # Pass google_api_key explicitly into the class
 llm = ChatGoogleGenerativeAI(
