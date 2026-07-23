@@ -21,4 +21,5 @@ pydantic>=2.0.0
 faiss-cpu
 pypdf
 duckduckgo-search
+ddgs
 langchain-text-splitters
