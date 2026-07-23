@@ -27,4 +27,6 @@ COPY . .
 EXPOSE 8501
 
 # Command to run the Streamlit application
-CMD ["sh", "-c", "streamlit run frontend.py --server.address=0.0.0.0 --server.port=${PORT:-8501}"]
+# Shell form (not exec-array) so $PORT is expanded at container start.
+# Falls back to 8501 for local docker-compose runs where PORT isn't set.
+CMD streamlit run frontend.py --server.port=${PORT:-8501} --server.address=0.0.0.0
