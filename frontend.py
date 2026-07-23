@@ -87,7 +87,7 @@ CONFIG = {
 }
 
 # ============================ Sidebar ============================
-st.sidebar.title("NEXUS")
+st.sidebar.title("Shubham")
 #st.sidebar.markdown(f"**Thread ID:** `{thread_key}`")
 st.sidebar.markdown(f"**User ID:** `{user_key}`")
 
